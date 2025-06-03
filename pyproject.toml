@@ -1,0 +1,23 @@
+[project]
+name = "hitl_example"
+version = "0.1.0"
+description = "hitl-example using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.121.0,<1.0.0"
+]
+
+[project.scripts]
+hitl_example = "hitl_example.main:run"
+run_crew = "hitl_example.main:run"
+train = "hitl_example.main:train"
+replay = "hitl_example.main:replay"
+test = "hitl_example.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
