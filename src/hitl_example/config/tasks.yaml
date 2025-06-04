@@ -13,6 +13,7 @@ collector_task:
   expected_output: >
     All required fields of person. None can be missing.
 #  output_json: PersonalInformationOutput --> This is set when the Agent is created in code.
+  output_file: person.json
   agent: information_collector
   human_input: false
 

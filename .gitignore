@@ -22,6 +22,7 @@ var/
 
 # Virtual Environment
 venv/
+.venv/
 ENV/
 .env
 
@@ -46,3 +47,5 @@ ENV/
 # OS specific
 .DS_Store
 Thumbs.db
+
+person.json
