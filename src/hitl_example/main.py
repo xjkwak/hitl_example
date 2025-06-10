@@ -2,6 +2,7 @@
 import asyncio
 import sys
 import warnings
+import logging
 from datetime import datetime
 
 import chainlit as cl
@@ -9,6 +10,16 @@ from dotenv import load_dotenv
 
 from hitl_example.crew import HitlExample
 from hitl_example.models import CrewInput
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 load_dotenv(override=True)
 
@@ -27,7 +38,7 @@ def run():
         'topic': 'AI LLMs',
         'current_year': str(datetime.now().year)
     }
-    
+
     try:
         HitlExample().crew().kickoff(inputs=inputs)
     except Exception as e:
@@ -66,7 +77,7 @@ def test():
         "topic": "AI LLMs",
         "current_year": str(datetime.now().year)
     }
-    
+
     try:
         HitlExample().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
 
@@ -84,13 +95,26 @@ if __name__ == "__main__":
 
 @cl.on_chat_start
 async def on_chat_start():
+    logger.info("Starting new chat session")
     await cl.Message(content="Hello I am your personal Assistant. How can I help?").send()
 
 
 @cl.on_message
 async def on_message(message: cl.Message):
     # This function will be called when user sends their first and subsequent messages
-    input_data = CrewInput(initial_message=message.content)
-    result = await asyncio.to_thread(lambda: my_crew.kickoff(inputs=input_data.model_dump()))
+    logger.info(f"Received message from user: {message.content[:50]}...")
 
-    await cl.Message(content=str(result)).send()
+    try:
+        input_data = CrewInput(initial_message=message.content)
+        logger.info(f"Created CrewInput object with message content: {input_data.initial_message}")
+
+        logger.info("Starting crew.kickoff in separate thread")
+        result = await asyncio.to_thread(lambda: my_crew.kickoff(inputs=input_data.model_dump()))
+        logger.info(f"Received result from crew: {str(result)[:50]}...")
+
+        await cl.Message(content=str(result)).send()
+        logger.info("Sent response back to user")
+    except Exception as e:
+        error_msg = f"Error processing message: {str(e)}"
+        logger.error(error_msg, exc_info=True)
+        await cl.Message(content=f"Sorry, an error occurred: {str(e)}").send()

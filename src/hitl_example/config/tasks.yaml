@@ -11,7 +11,7 @@ collector_task:
     Ask questions in a natural way.
     Store all collected information in a structured format.
   expected_output: >
-    All required fields of person. None can be missing.
+    All required fields of person. None can be missing. N/A is not acceptable.
 #  output_json: PersonalInformationOutput --> This is set when the Agent is created in code.
   output_file: person.json
   agent: information_collector
