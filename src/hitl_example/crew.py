@@ -40,8 +40,7 @@ class HitlExample():
         personal_information = PersonalInformationOutput
         return Task(
             config=self.tasks_config['collector_task'], # type: ignore[index]
-            output_json=personal_information,
-            context_prompt="Before asking for personal information, check if you already have this information in your memory. If you already have complete information about the person (first_name, last_name, country, city, company, and email), acknowledge that you remember them and continue with the conversation without asking for these details again. Only collect missing information if some fields are empty or unknown."
+            output_json=personal_information
         )
 
     @task
@@ -61,6 +60,6 @@ class HitlExample():
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            memory=True,  # Enable memory capabilities
+            #memory=True,  # Enable memory capabilities
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )

@@ -2,16 +2,11 @@ collector_task:
   name: Collect Personal Project Information
   description: >
     Based on the initial message '{initial_message}', collect detailed information about the person by:
-    First, check if you already have the person's information in your memory from previous conversations.
-    If you already have complete information (first name, last name, location, company, and email), acknowledge this and don't ask for it again.
-    Only if information is missing or this is a first-time interaction, ask for:
-    - Their first name and last name
-    - Their location (country and city)
-    - Their company and email
+    Finding out their first name and last name their location, meaning country and city, company and email. 
     Ask questions in a natural way.
     Store all collected information in a structured format.
   expected_output: >
-    All required fields of person. None can be missing. N/A is not acceptable.
+    All required fields of person.
 #  output_json: PersonalInformationOutput --> This is set when the Agent is created in code.
   output_file: person.json
   agent: information_collector
